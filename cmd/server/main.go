@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/ndenisj/go-comment-api-v1/internal/database"
 	transportHTTP "github.com/ndenisj/go-comment-api-v1/internal/transport/http"
 	"net/http"
 )
@@ -13,6 +14,12 @@ type App struct {
 // Run - sets up our application
 func (app *App) Run() error {
 	fmt.Println("Setting up our App")
+
+	var err error
+	_, err = database.NewDatabase()
+	if err != nil {
+		return err
+	}
 
 	handler := transportHTTP.NewHandler()
 	handler.SetupRoutes()
